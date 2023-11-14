@@ -14,12 +14,21 @@ export default class OrdersController {
         // console.log('user type: ', auth.user?.userType)
 
         const errorAdmin = 'Kindly login using your personal account to purchase.'
-        const errorUser = 'Book cannot be ordered because of user type. Book category: ' + bookCategory.name + '.'
+        const errorUser = 
+            'Book cannot be ordered because of user type or location.' +
+            '\nBook category: ' + bookCategory.name + 
+            '\nBook location: ' + book.location
         const userType = auth.user?.userType    // current user type
-        
+        const userLocation = auth.user?.location
+
+        console.log('userLocation: ', userLocation)
+        console.log('bookLocation: ', book.location)
         if (userType === 'Admin') {
             throw new UnauthorizedException(errorAdmin)
-        } else if (bookCategory.name === userType || bookCategory.name === 'All Readers') {
+        } else if (
+            (bookCategory.name === userType || bookCategory.name === 'All Readers') &&
+            userLocation === book.location
+        ) {
             console.log('CAN ORDER')
             const order = await book.related('orders').create({
                 userId: auth.user?.id,
