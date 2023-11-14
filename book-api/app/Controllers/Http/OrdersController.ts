@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Book from 'App/Models/Book'
 import Category from 'App/Models/Category'
 import OrderValidator from 'App/Validators/OrderValidator'
@@ -17,8 +18,7 @@ export default class OrdersController {
         const userType = auth.user?.userType    // current user type
         
         if (userType === 'Admin') {
-            // console.log('Kindly login using your personal account to purchase.')
-            return errorAdmin
+            throw new UnauthorizedException(errorAdmin)
         } else if (bookCategory.name === userType || bookCategory.name === 'All Readers') {
             console.log('CAN ORDER')
             const order = await book.related('orders').create({
@@ -32,8 +32,7 @@ export default class OrdersController {
 
             return order
         } else {
-            // console.log('CANNOT ORDER')
-            return errorUser
+            throw new UnauthorizedException(errorUser)
         }
     }
 }
