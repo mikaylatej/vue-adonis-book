@@ -16,12 +16,19 @@ export default class BooksController {
     public async store({ request, auth }:HttpContextContract) {
         const validatedData = await request.validate(CreateBookValidator)
 
-        const book = await auth.user?.related('books').create(validatedData)
+        // user type must be Admin to create book
+        const userType = auth.user?.userType
 
-        // fetch user that created the book and category it belongs to
-        await book?.preload('user')
-        await book?.preload('category')
-        return book
+        if (userType === 'Admin') {
+            const book = await auth.user?.related('books').create(validatedData)
+            console.log(auth.user?.toJSON())    // to extract user info
+            // fetch user that created the book and category it belongs to
+            await book?.load('user')
+            await book?.load('category')
+            return book
+        } else {
+            return 'This user is not authorized to create a book record.'
+        }
     }
 
     public async show ({ params }:HttpContextContract) {

@@ -24,11 +24,15 @@ Route.group(() => {
   Route.post('auth/register', 'AuthController.register')
   Route.post('auth/login', 'AuthController.login')
 
+  // CRUD
   Route.post('books', 'BooksController.store').middleware('auth') // create book record
   Route.get('books/:id', 'BooksController.show')  // show book
   Route.get('books', 'BooksController.index')     // show all books
   Route.patch('books/:id', 'BooksController.update')  // update book record
   Route.delete('books/:id', 'BooksController.destroy')  // delete book record
+
+  // order
+  Route.post('books/:id/order', 'OrdersController.store').middleware('auth')
 }).prefix('api')
 
 // Route.get('/', async () => {

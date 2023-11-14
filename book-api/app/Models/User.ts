@@ -3,6 +3,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel, hasMany, HasMany, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
 import Book from './Book'
 import UserType from './UserType'
+import Order from './Order'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -44,4 +45,7 @@ export default class User extends BaseModel {
 
   @belongsTo(() => UserType)
   public userTypes: BelongsTo<typeof UserType>
+
+  @hasMany(() => Order) 
+  public order: HasMany<typeof Order>
 }
