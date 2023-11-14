@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Book from 'App/Models/Book'
 import Category from 'App/Models/Category'
+import Order from 'App/Models/Order'
 import OrderValidator from 'App/Validators/OrderValidator'
 
 export default class OrdersController {
@@ -18,11 +19,10 @@ export default class OrdersController {
             'Book cannot be ordered because of user type or location.' +
             '\nBook category: ' + bookCategory.name + 
             '\nBook location: ' + book.location
+        
         const userType = auth.user?.userType    // current user type
         const userLocation = auth.user?.location
 
-        console.log('userLocation: ', userLocation)
-        console.log('bookLocation: ', book.location)
         if (userType === 'Admin') {
             throw new UnauthorizedException(errorAdmin)
         } else if (
@@ -42,6 +42,34 @@ export default class OrdersController {
             return order
         } else {
             throw new UnauthorizedException(errorUser)
+        }
+    }
+
+    public async showUserOrders ({ params, auth }:HttpContextContract) {
+        // only view logged in user's orders
+        // console.log(auth.user?.id + ' = ' + params.id)
+        if (auth.user?.id == params.id || auth.user?.userType === 'Admin') {
+            const orders = await Order.query()
+            .where('user_id', params.id)
+            .preload('user')
+            .preload('book')
+
+            return orders
+        } else {
+            throw new UnauthorizedException('Cannot view other users\' orders.')
+        }
+    }
+
+    public async showAllOrders ({ auth }:HttpContextContract) {
+        // only admin can view
+        if (auth.user?.userType === 'Admin') {
+            const orders = await Order.query()
+            .preload('user')
+            .preload('book')
+
+            return orders
+        } else {
+            throw new UnauthorizedException('Cannot view other users\' orders.')
         }
     }
 }

@@ -5,7 +5,7 @@ import Book
 import UpdateBookValidator from 'App/Validators/UpdateBookValidator'
 import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 export default class BooksController {
-    public async index() {
+    public async showAllBooks() {
         // const books = await Book.all()
         const books = await Book.query()
         .preload('user')
@@ -30,7 +30,7 @@ export default class BooksController {
         } 
     }
 
-    public async show ({ params }:HttpContextContract) {
+    public async showBook ({ params }:HttpContextContract) {
         const book = await Book.query()
             .where('id', params.id)
             .preload('user')
