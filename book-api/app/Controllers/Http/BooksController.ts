@@ -6,6 +6,7 @@ import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Category from 'App/Models/Category'
 
 export default class BooksController {
+    
     public async showAllBooks ({ auth, request }:HttpContextContract) {
         const userType = request.input('user_type')
         const location = request.input('location')
@@ -21,7 +22,7 @@ export default class BooksController {
                 const userBookCategory = await Category.findBy('name', userType)
                 const allBooksCategory = await Category.findBy('name', 'All Readers')
 
-                console.log('userBookCategory ID: ', userBookCategory.id)
+                // console.log('userBookCategory ID: ', userBookCategory.id)
                 const books = await Book.query()
                 .if (userType, (query) => {
                     query
@@ -109,7 +110,7 @@ export default class BooksController {
         return book
     }
 
-    public async destroy({ params, auth }:HttpContextContract) {
+    public async destroy ({ params, auth }:HttpContextContract) {
         const book = await Book.findOrFail(params.id)      // fetch thread to delete
 
         if (auth.user?.userType !== 'Admin') {

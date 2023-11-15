@@ -35,6 +35,10 @@ Route.group(() => {
   Route.post('books/:id/order', 'OrdersController.store').middleware('auth')
   Route.get('orders/:id', 'OrdersController.showUserOrders').middleware('auth')  // show user orders
   Route.get('orders', 'OrdersController.showAllOrders').middleware('auth')  // show all orders
+
+  // user account (settings)
+  Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details
+  Route.delete('account/:id', 'UsersController.destroy').middleware('auth')  // delete account 
 }).prefix('api')
 
 // Route.get('/', async () => {
