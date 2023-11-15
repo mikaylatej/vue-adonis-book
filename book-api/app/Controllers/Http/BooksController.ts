@@ -29,9 +29,9 @@ export default class BooksController {
                         .where('category_id', allBooksCategory.id)
                         .orWhere('category_id', userBookCategory.id)
                 })
-                // .if (location, (query) => {
-                //     query.where('location', location)
-                // })
+                .if (location, (query) => {
+                    query.where('location', location)
+                })
                 .preload('category')
                 return books
             } catch (error) {

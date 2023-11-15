@@ -20,9 +20,14 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+// FOR VIEWS TEST
+Route.get('/', async ({ view }) => {
+  return view.render('home')
+}) 
+
 Route.group(() => {
   Route.post('auth/register', 'AuthController.register')
-  Route.post('auth/login', 'AuthController.login')
+  Route.post('auth/login', 'AuthController.login').as('auth.login')
 
   // CRUD
   Route.post('books', 'BooksController.store').middleware('auth') // create book record
@@ -39,6 +44,9 @@ Route.group(() => {
   // user account (settings)
   Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details
   Route.delete('account/:id', 'UsersController.destroy').middleware('auth')  // delete account 
+
+
+   
 }).prefix('api')
 
 // Route.get('/', async () => {

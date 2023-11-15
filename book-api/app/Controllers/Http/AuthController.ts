@@ -14,7 +14,7 @@ export default class AuthController {
         return token
     }
 
-    public async login({ request, auth }: HttpContextContract) {
+    public async login({ request, auth, response, view }: HttpContextContract) {
         // get user request, extract email and password only
         const { email, password } = request.all()
 
@@ -23,6 +23,9 @@ export default class AuthController {
             // if matches, user will be logged in and token will be generated
             const token = await auth.attempt(email, password)
             return token
+            // response.send({ token })
+            // return response.redirect().toPath('../books')
+            // return view.render('success', { email })
         } catch (error) {
             // if record does not match in db
             return "We couldn't verify your credentials."
