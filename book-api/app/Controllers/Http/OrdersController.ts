@@ -49,8 +49,8 @@ export default class OrdersController {
 
     public async showUserOrders ({ params, auth }:HttpContextContract) {
         // only view logged in user's orders
-        // console.log(auth.user?.id + ' = ' + params.id)
-        if (auth.user?.id == params.id || auth.user?.userType === 'Admin') {
+        console.log(auth.user?.id + ' = ' + params.user_id)
+        if (auth.user?.id == params.user_id || auth.user?.userType === 'Admin') {
             const orders = await Order.query()
             .where('user_id', params.user_id)
             .preload('user')
