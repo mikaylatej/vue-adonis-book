@@ -37,9 +37,10 @@ Route.group(() => {
   Route.delete('books/:id', 'BooksController.destroy').middleware('auth')  // delete book record
 
   // order
-  Route.post('books/:id/order', 'OrdersController.store').middleware('auth')
-  Route.get('orders/:id', 'OrdersController.showUserOrders').middleware('auth')  // show user orders
+  Route.post('books/:id/order', 'OrdersController.store').middleware('auth')  // create order
+  Route.get('orders/:user_id', 'OrdersController.showUserOrders').middleware('auth')  // show user orders
   Route.get('orders', 'OrdersController.showAllOrders').middleware('auth')  // show all orders
+  Route.patch('orders/:user_id/:order_id', 'OrdersController.update').middleware('auth')   // update order
 
   // user account (settings)
   Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details

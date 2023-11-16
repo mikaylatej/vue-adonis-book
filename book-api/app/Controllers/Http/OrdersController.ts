@@ -4,6 +4,7 @@ import Book from 'App/Models/Book'
 import Category from 'App/Models/Category'
 import Order from 'App/Models/Order'
 import OrderValidator from 'App/Validators/OrderValidator'
+import UpdateOrderValidator from 'App/Validators/UpdateOrderValidator'
 
 export default class OrdersController {
     public async store ({ request, params, auth }:HttpContextContract) {
@@ -51,7 +52,7 @@ export default class OrdersController {
         // console.log(auth.user?.id + ' = ' + params.id)
         if (auth.user?.id == params.id || auth.user?.userType === 'Admin') {
             const orders = await Order.query()
-            .where('user_id', params.id)
+            .where('user_id', params.user_id)
             .preload('user')
             .preload('book')
 
@@ -72,5 +73,22 @@ export default class OrdersController {
         } else {
             throw new UnauthorizedException('Cannot view other users\' orders.')
         }
+    }
+
+    public async update ({ request, params, auth }:HttpContextContract) {
+        // can only update status of order
+        const order = await Order.findOrFail(params.order_id)
+        const validatedData = await request.validate(UpdateOrderValidator)
+
+        if (auth.user?.userType !== 'Admin') {
+            throw new UnauthorizedException('This user is not authorized to update a book record.')
+        }
+        order.merge(validatedData)
+        await order.save()
+
+        await order.load('user')
+        await order.load('book')
+
+        return order
     }
 }
