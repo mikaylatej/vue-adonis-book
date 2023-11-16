@@ -34,7 +34,8 @@ export default class OrdersController {
                 userId: auth.user?.id,
                 bookId: book.id,
                 address: address,
-                contactNumber: contact_number
+                contactNumber: contact_number,
+                status: 'Processing'
             })
             await order.load('user')
             await order.load('book')

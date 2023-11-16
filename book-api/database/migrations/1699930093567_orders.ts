@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.integer('book_id').unsigned().notNullable()
       table.string('address').notNullable()
       table.string('contact_number').notNullable()
+      table.string('status').notNullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

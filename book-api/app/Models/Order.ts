@@ -19,6 +19,9 @@ export default class Order extends BaseModel {
   @column()
   public contactNumber: string
 
+  @column()
+  public status: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

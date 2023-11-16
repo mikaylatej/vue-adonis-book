@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.float('price').unsigned().notNullable()
       table.string('author').notNullable()
       table.string('location').notNullable()
-      
+      table.unique(['title','author','location'])
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
