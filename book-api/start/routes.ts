@@ -29,7 +29,7 @@ Route.group(() => {
   Route.post('auth/register', 'AuthController.register')
   Route.post('auth/login', 'AuthController.login').as('auth.login')
 
-  // CRUD
+  // CRUD books
   Route.post('books', 'BooksController.store').middleware('auth') // create book record
   Route.get('books/:id', 'BooksController.showBook').middleware('auth')  // show book
   Route.get('books', 'BooksController.showAllBooks').middleware('auth')    // show all books

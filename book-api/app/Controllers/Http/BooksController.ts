@@ -53,13 +53,21 @@ export default class BooksController {
         }
     }
 
-    public async showBook({ params }: HttpContextContract) {
-        const book = await Book.query()
+    public async showBook({ params, auth }: HttpContextContract) {
+        const user = auth.user?.toJSON()
+        const book = await Book.findOrFail(params.id)
+
+        if (user?.user_type === 'Student' 
+            && (book.accessType === 'Teacher' || user?.location !== book.location)
+        ) {
+            throw new UnauthorizedException('This user is not authorized to view this book record.')
+        }
+        const bookList = await Book.query()
             .where('id', params.id)
             .preload('user')
             .firstOrFail()
 
-        return book
+        return bookList
     }
 
     public async update({ request, params, auth }: HttpContextContract) {
