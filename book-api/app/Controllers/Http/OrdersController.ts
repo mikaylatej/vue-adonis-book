@@ -12,7 +12,6 @@ export default class OrdersController {
         const user = auth.user
         const book = await Book.findOrFail(params.id)
 
-        const errorAdmin = 'Kindly login using your personal account to purchase.'
         const errorUserType =
             'Book cannot be ordered because of user type or location.' +
             '\nBook category: ' + book.accessType
@@ -22,9 +21,7 @@ export default class OrdersController {
 
         if (user?.userType === 'Student' && (book.accessType !== 'Student' && book.accessType !=='All')) {
             throw new UnauthorizedException(errorUserType)
-        } else if (user?.userType === 'Admin') {
-            throw new UnauthorizedException(errorAdmin)
-        }
+        } 
         if (user?.location !== book.location) {
             throw new UnauthorizedException(errorUserLocation)
         }
@@ -63,7 +60,6 @@ export default class OrdersController {
             const orders = await Order.query()
                 .preload('user')
                 .preload('book')
-
             return orders
         } else {
             throw new UnauthorizedException('Cannot view other users\' orders.')
