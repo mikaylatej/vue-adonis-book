@@ -19,15 +19,18 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import AuthController from 'App/Controllers/Http/AuthController'
 
 // FOR VIEWS TEST
 Route.get('/', async ({ view }) => {
-  return view.render('home')
+  return view.render('success')
 }) 
 
 Route.group(() => {
   Route.post('auth/register', 'AuthController.register')
+  Route.get('auth/register', 'AuthController.showRegister')
   Route.post('auth/login', 'AuthController.login').as('auth.login')
+  Route.get('auth/login', 'AuthController.showLogin')
 
   // CRUD books
   Route.post('books', 'BooksController.store').middleware('auth') // create book record
