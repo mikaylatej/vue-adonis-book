@@ -3,6 +3,7 @@ import CreateBookValidator from 'App/Validators/CreateBookValidator'
 import Book from 'App/Models/Book'
 import UpdateBookValidator from 'App/Validators/UpdateBookValidator'
 import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
+import Order from 'App/Models/Order'
 
 export default class BooksController {
 
@@ -56,9 +57,12 @@ export default class BooksController {
     public async showBook({ params, auth }: HttpContextContract) {
         const user = auth.user?.toJSON()
         const book = await Book.findOrFail(params.id)
+        const order = await Order.findBy('book_id', params.id)
 
+        console.log(order == null)
         if (user?.user_type === 'Student' 
             && (book.accessType === 'Teacher' || user?.location !== book.location)
+            && order == null
         ) {
             throw new UnauthorizedException('This user is not authorized to view this book record.')
         }
