@@ -13,7 +13,7 @@ export default class Book extends BaseModel {
   public userId: number
 
   @column() 
-  public categoryId: number
+  public accessType: string
 
   @column() 
   public title: string

@@ -12,7 +12,7 @@ export default class CategorySeeder extends BaseSeeder {
         name: 'Student'
       },
       {
-        name: 'All Readers'
+        name: 'All'
       }
     ])
   }

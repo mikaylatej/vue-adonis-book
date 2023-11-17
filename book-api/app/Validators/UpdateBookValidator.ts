@@ -27,8 +27,8 @@ export default class UpdateBookValidator {
     title: schema.string.optional({}, [
       rules.maxLength(255)
     ]),
-    category_id: schema.number.optional([
-      rules.exists({ table: 'categories', column: 'id' })
+    access_type: schema.number.optional([
+      rules.exists({ table: 'categories', column: 'name' })
     ]),
     author: schema.string.optional({}, [
       rules.maxLength(255)

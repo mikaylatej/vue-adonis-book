@@ -27,8 +27,8 @@ export default class CreateBookValidator {
     title: schema.string({}, [
       rules.maxLength(255)
     ]),
-    category_id: schema.number([
-      rules.exists({ table: 'categories', column: 'id' })
+    access_type: schema.string([
+      rules.exists({ table: 'categories', column: 'name' })
     ]),
     author: schema.string({}, [
       rules.maxLength(255)
