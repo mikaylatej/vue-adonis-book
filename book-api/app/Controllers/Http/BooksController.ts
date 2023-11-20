@@ -4,6 +4,7 @@ import Book from 'App/Models/Book'
 import UpdateBookValidator from 'App/Validators/UpdateBookValidator'
 import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Order from 'App/Models/Order'
+// import { getUserType } from 'App/lib/Util.js'
 
 export default class BooksController {
 
@@ -12,6 +13,7 @@ export default class BooksController {
         const location = request.input('location')
         const access_type = request.input('access_type')
         console.log('location: ' + location)
+        // console.log('imported user type: ' + getUserType(user))
         let query = Book.query().clone()
 
         if (user?.user_type === 'Student') {
@@ -21,6 +23,7 @@ export default class BooksController {
                 .clone()
             return query
         }
+        // return generateFilterQuery(query, location, access_type)
         if (location != null && access_type != null) {
             // if there is location in param, filter by loc
             // else return all books (from all locs)
@@ -75,12 +78,15 @@ export default class BooksController {
     }
 
     public async update({ request, params, auth }: HttpContextContract) {
-        const book = await Book.findOrFail(params.id)   // fetch book to update
+          // fetch book to update
         const validatedData = await request.validate(UpdateBookValidator)
+        const book_id = request.input('book_id')
+        const book = await Book.findOrFail(book_id) 
 
         if (auth.user?.userType !== 'Admin') {
             throw new UnauthorizedException('This user is not authorized to update a book record.')
         }
+        // validateAdminAccessOnly(auth.user)
         // update book
         book.merge(validatedData)
         await book.save()   // pass changes to db
@@ -91,8 +97,9 @@ export default class BooksController {
         return book
     }
 
-    public async destroy({ params, auth }: HttpContextContract) {
-        const book = await Book.findOrFail(params.id)      // fetch thread to delete
+    public async destroy({  auth, request }: HttpContextContract) {
+        const book_id = request.input('book_id')
+        const book = await Book.findOrFail(book_id)      // fetch thread to delete
 
         if (auth.user?.userType !== 'Admin') {
             throw new UnauthorizedException('This user is not authorized to delete a book record.')

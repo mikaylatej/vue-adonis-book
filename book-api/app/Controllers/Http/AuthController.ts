@@ -40,9 +40,9 @@ export default class AuthController {
             // try login the user
             // if matches, user will be logged in and token will be generated
             const token = await auth.attempt(email, password)
-            // return token
+            return token
             // response.send({ token })
-            return response.redirect().toPath('/')
+            // return response.redirect().toPath('/')
             
             // return view.render('success', { email })
         } catch (error) {
