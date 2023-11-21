@@ -8,7 +8,7 @@ import Order from 'App/Models/Order'
 
 export default class BooksController {
 
-    public async showAllBooks({ auth, request }: HttpContextContract) {
+    public async showAllBooks({ request, auth }: HttpContextContract) {
         const user = auth.user?.toJSON()
         const location = request.input('location')
         const access_type = request.input('access_type')
@@ -77,7 +77,7 @@ export default class BooksController {
         return bookList
     }
 
-    public async update({ request, params, auth }: HttpContextContract) {
+    public async update({ request, auth }: HttpContextContract) {
           // fetch book to update
         const validatedData = await request.validate(UpdateBookValidator)
         const book_id = request.input('book_id')
@@ -97,7 +97,7 @@ export default class BooksController {
         return book
     }
 
-    public async destroy({  auth, request }: HttpContextContract) {
+    public async destroy({ request, auth }: HttpContextContract) {
         const book_id = request.input('book_id')
         const book = await Book.findOrFail(book_id)      // fetch thread to delete
 

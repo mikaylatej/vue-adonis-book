@@ -4,7 +4,8 @@ import UserPermission from 'App/Models/UserPermission'
 const permissionsObject = {
   'POST/api/books': 'ADD_PRODUCT',
   'DELETE/api/books': 'DELETE_PRODUCT',
-  'PATCH/api/books': 'EDIT_PRODUCT'
+  'PATCH/api/books': 'EDIT_PRODUCT',
+  'PATCH/api/orders': 'EDIT_ORDER'
 }
 
 const permissionValidator = async (user, action) => {
@@ -15,18 +16,26 @@ const permissionValidator = async (user, action) => {
   return query.length > 0
 }
 
+const getPathname = (urlString) => {
+  const index = urlString.indexOf(':')
+  if (index === -1) {
+    return urlString
+  } 
+  const url = urlString.split(':')[0]
+  const finalUrl = url.slice(0, url.length-1)
+  console.log('GET PATHNAME: ' + finalUrl)
+  return finalUrl
+}
+
 export default class BooksMiddleware {
   public async handle({ auth, response, request }: HttpContextContract, next: () => Promise<void>) {
-    // code for middleware goes here. ABOVE THE NEXT CALL
     const user = auth.user?.toJSON()
-    console.log('user id: ' + user?.id)
-    const permissionKey = request.method() + request.parsedUrl.pathname
+
+    const pathName = getPathname(request.ctx?.route?.pattern) // remove params from pathname
+    const permissionKey = request.method() + pathName
     const action = permissionsObject[permissionKey]
-    console.log('action: ' + action)
     const hasPermission = await permissionValidator(user, action)
 
-    
-    console.log(hasPermission)
     if (!hasPermission) {
       response.unauthorized({ error: 'No access rights' })
       return
