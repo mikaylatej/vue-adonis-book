@@ -9,6 +9,7 @@ export default class extends BaseSchema {
       table.integer('user_id').unsigned().notNullable()
       table.string('user_permission').notNullable()
       table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE')
+      table.unique(['user_id','user_permission'])
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */

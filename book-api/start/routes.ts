@@ -48,7 +48,8 @@ Route.group(() => {
   Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details
   Route.delete('account/:id', 'UsersController.destroy').middleware('auth')  // delete account 
 
-
+  // user permissions
+  Route.post('permissions', 'UserPermissionsController.store').middleware(['auth', 'admin']) // create new record in user permissions
    
 }).prefix('api')
 
