@@ -1,0 +1,45 @@
+REGISTER
+
+1. Admin
+{
+	"name": "Admin Name",
+	"location": "Asia",
+	"userType": "Admin",
+	"email": "admin@test.com",
+	"password": "adminpass"
+}
+2. Student
+{
+	"name": "Student Name",
+	"location": "Asia",
+	"userType": "Student",
+	"email": "student@test.com",
+	"password": "studentpass"
+}
+3. Teacher
+{
+	"name": "Teacher Name",
+	"location": "Asia",
+	"userType": "Teacher",
+	"email": "teacher@test.com",
+	"password": "teacherpass"
+}
+
+----------------------------------
+
+LOGIN
+1. Admin
+{
+	"email": "admin@test.com",
+	"password": "adminpass"
+}
+2. Student
+{
+	"email": "student@test.com",
+	"password": "studentpass"
+}
+3. Teacher
+{
+	"email": "teacher@test.com",
+	"password": "teacherpass"
+}

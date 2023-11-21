@@ -13,7 +13,7 @@ export default class AuthController {
         
         // check if there is already an admin user
         let adminUser = await User.findBy('user_type', 'Admin')
-        console.log('has admin: ', (adminUser == null))
+        console.log('no admin: ', (adminUser == null))
 
         if (adminUser != null && validatedData.userType === 'Admin') {
             throw new UnauthorizedException('Cannot register as admin. Current admins have to set your user type as Admin.')

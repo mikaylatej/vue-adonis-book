@@ -32,17 +32,17 @@ Route.group(() => {
   Route.get('auth/login', 'AuthController.showLogin')
 
   // CRUD books
-  Route.post('books', 'BooksController.store').middleware(['auth', 'books']) // create book record
+  Route.post('books', 'BooksController.store').middleware(['auth', 'permissions']) // create book record
   Route.get('books/:id', 'BooksController.showBook').middleware('auth')  // show book
   Route.get('books', 'BooksController.showAllBooks').middleware('auth')    // show all books
-  Route.patch('books', 'BooksController.update').middleware(['auth', 'books'])  // update book record
-  Route.delete('books', 'BooksController.destroy').middleware(['auth', 'books'])  // delete book record
+  Route.patch('books', 'BooksController.update').middleware(['auth', 'permissions'])  // update book record
+  Route.delete('books', 'BooksController.destroy').middleware(['auth', 'permissions'])  // delete book record
 
   // order
   Route.post('books/:id/order', 'OrdersController.store').middleware('auth')  // create order
   Route.get('orders/:user_id', 'OrdersController.showUserOrders').middleware('auth')  // show user orders
   Route.get('orders', 'OrdersController.showAllOrders').middleware('auth')  // show all orders
-  Route.patch('orders/:user_id/:order_id', 'OrdersController.update').middleware(['auth', 'books'])   // update order
+  Route.patch('orders/:user_id/:order_id', 'OrdersController.update').middleware(['auth', 'permissions'])   // update order
 
   // user account (settings)
   Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details
@@ -50,7 +50,8 @@ Route.group(() => {
 
   // user permissions
   Route.post('permissions', 'UserPermissionsController.store').middleware(['auth', 'admin']) // create new record in user permissions
-   
+  Route.delete('permissions', 'UserPermissionsController.destroy').middleware(['auth', 'admin']) // create new record in user permissions
+
 }).prefix('api')
 
 // Route.get('/', async () => {

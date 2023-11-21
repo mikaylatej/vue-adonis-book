@@ -9,4 +9,11 @@ export default class UserPermissionsController {
         const userPermission = await UserPermission.create(validatedData)
         return userPermission
     }
+
+    public async destroy({ request }:HttpContextContract) {
+        const permission_id = request.input('id')
+
+        const userPermission = await UserPermission.findOrFail(permission_id)
+        return userPermission.delete()
+    }
 }

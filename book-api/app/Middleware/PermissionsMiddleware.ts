@@ -27,7 +27,7 @@ const getPathname = (urlString) => {
   return finalUrl
 }
 
-export default class BooksMiddleware {
+export default class PermissionsMiddleware {
   public async handle({ auth, response, request }: HttpContextContract, next: () => Promise<void>) {
     const user = auth.user?.toJSON()
 

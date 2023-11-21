@@ -43,6 +43,6 @@ Server.middleware.register([
 */
 Server.middleware.registerNamed({
   auth: 'App/Middleware/Auth',
-  books: 'App/Middleware/BooksMiddleware',
+  permissions: 'App/Middleware/PermissionsMiddleware',
   admin: 'App/Middleware/AdminMiddleware'
 })
