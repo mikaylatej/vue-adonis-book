@@ -43,3 +43,42 @@ LOGIN
 	"email": "teacher@test.com",
 	"password": "teacherpass"
 }
+
+----------------------------------
+
+CREATE BOOK 
+{
+	"access_type": "All",
+	"title": "All Book",
+	"price": 45,
+	"author": "Author 1",
+	"location": "Asia"
+}
+{
+	"access_type": "Student",
+	"title": "Student Book",
+	"price": 99.99,
+	"author": "Author 1",
+	"location": "Asia"
+}
+{
+	"access_type": "Teacher",
+	"title": "Teacher Book",
+	"price": 5.5,
+	"author": "Author 1",
+	"location": "Asia"
+}
+{
+	"access_type": "Student",
+	"title": "Student Book 1",
+	"price": 88.95,
+	"author": "Author 1",
+	"location": "Europe"
+}
+{
+	"access_type": "All",
+	"title": "All Book",
+	"price": 45,
+	"author": "Author 1",
+	"location": "Europe"
+}

@@ -5,7 +5,8 @@ const permissionsObject = {
   'POST/api/books': 'ADD_PRODUCT',
   'DELETE/api/books': 'DELETE_PRODUCT',
   'PATCH/api/books': 'EDIT_PRODUCT',
-  'PATCH/api/orders': 'EDIT_ORDER'
+  'PATCH/api/orders': 'EDIT_ORDER',
+  'GET/api/books': 'GET_ALL_BOOKS'
 }
 
 const permissionValidator = async (user, action) => {
@@ -36,8 +37,15 @@ export default class PermissionsMiddleware {
     const action = permissionsObject[permissionKey]
     const hasPermission = await permissionValidator(user, action)
 
-    if (!hasPermission) {
+    if (action === 'GET_ALL_BOOKS' && !hasPermission) {
+      // response.unauthorized({ error: 'No access rights' })
+      console.log('has no access to all books')
+      request.all().access = 'no'
+      // await next()
+    } else if (!hasPermission) {
       response.unauthorized({ error: 'No access rights' })
+      console.log('has no access rights')
+      // request.all().access = 'no'
       return
     }
 

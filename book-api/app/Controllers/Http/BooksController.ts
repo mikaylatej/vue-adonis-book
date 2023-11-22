@@ -4,23 +4,24 @@ import Book from 'App/Models/Book'
 import UpdateBookValidator from 'App/Validators/UpdateBookValidator'
 import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Order from 'App/Models/Order'
-// import { getUserType } from 'App/lib/Util.js'
 
 export default class BooksController {
 
+    // admin and teacher can access all books
     public async showAllBooks({ request, auth }: HttpContextContract) {
-        const user = auth.user?.toJSON()
+        console.log('showallbooks')
         const location = request.input('location')
         const access_type = request.input('access_type')
-        console.log('location: ' + location)
-        // console.log('imported user type: ' + getUserType(user))
         let query = Book.query().clone()
 
-        if (user?.user_type === 'Student') {
+        const user = auth.user?.toJSON()
+        if (request.all().access === 'no' && user?.user_type === 'Student') {
+            console.log('user loc: ' + user?.location)
             query = query.where('access_type', 'Student')
                 .orWhere('access_type', 'All')
                 .andWhere('location', user?.location)
                 .clone()
+            
             return query
         }
         // return generateFilterQuery(query, location, access_type)
@@ -63,7 +64,7 @@ export default class BooksController {
         const order = await Order.findBy('book_id', params.id)
 
         console.log(order == null)
-        if (user?.user_type === 'Student' 
+        if (user?.user_type === 'Student'
             && (book.accessType === 'Teacher' || user?.location !== book.location)
             && order == null
         ) {
@@ -78,10 +79,10 @@ export default class BooksController {
     }
 
     public async update({ request, auth }: HttpContextContract) {
-          // fetch book to update
+        // fetch book to update
         const validatedData = await request.validate(UpdateBookValidator)
         const book_id = request.input('book_id')
-        const book = await Book.findOrFail(book_id) 
+        const book = await Book.findOrFail(book_id)
 
         if (auth.user?.userType !== 'Admin') {
             throw new UnauthorizedException('This user is not authorized to update a book record.')

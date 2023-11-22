@@ -12,7 +12,7 @@ export default class UserPermissionsController {
 
     public async destroy({ request }:HttpContextContract) {
         const permission_id = request.input('id')
-
+        // console.log('in destroy: ' + request.all().access)
         const userPermission = await UserPermission.findOrFail(permission_id)
         return userPermission.delete()
     }
