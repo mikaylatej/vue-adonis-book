@@ -1,11 +1,11 @@
 /**
- * Config source: https://git.io/JfefC
- *
- * Feel free to let us know via PR, if you find something broken in this config
- * file.
- */
+* Config source: https://git.io/JfefC
+*
+* Feel free to let us know via PR, if you find something broken in this config
+* file.
+*/
 
-import type { CorsConfig } from '@ioc:Adonis/Core/Cors'
+import { CorsConfig } from '@ioc:Adonis/Core/Cors'
 
 const corsConfig: CorsConfig = {
   /*
@@ -20,7 +20,7 @@ const corsConfig: CorsConfig = {
   | you can define a function to enable/disable it on per request basis as well.
   |
   */
-  enabled: false,
+  enabled: true,
 
   // You can also use a function that return true or false.
   // enabled: (request) => request.url().startsWith('/api')

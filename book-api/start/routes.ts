@@ -20,29 +20,31 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-// FOR VIEWS TEST
-Route.get('/', async ({ view }) => {
-  return view.render('success')
-}) 
-
 Route.group(() => {
-  Route.post('auth/register', 'AuthController.register')
-  Route.get('auth/register', 'AuthController.showRegister')
+  Route.post('auth/register', 'AuthController.register').as('auth.register')
+  // Route.get('auth/register', 'AuthController.showRegister').as('show.register')
   Route.post('auth/login', 'AuthController.login').as('auth.login')
-  Route.get('auth/login', 'AuthController.showLogin')
+  // Route.get('auth/login', 'AuthController.showLogin').as('show.login')
 
   // CRUD books
   Route.post('books', 'BooksController.store').middleware(['auth', 'permissions']) // create book record
   Route.get('books/:id', 'BooksController.showBook').middleware('auth')  // show book
-  Route.get('books', 'BooksController.showAllBooks').middleware(['auth', 'permissions'])    // show all books
+  Route.get('books', 'BooksController.showAllBooks')
+  .middleware(['auth', 'permissions']) // show all books
   Route.patch('books', 'BooksController.update').middleware(['auth', 'permissions'])  // update book record
   Route.delete('books', 'BooksController.destroy').middleware(['auth', 'permissions'])  // delete book record
+  // views
+  // Route.get('books', 'BooksController.booksView').as('show.books')
 
   // order
   Route.post('books/:id/order', 'OrdersController.store').middleware('auth')  // create order
   Route.get('orders/:user_id', 'OrdersController.showUserOrders').middleware('auth')  // show user orders
-  Route.get('orders', 'OrdersController.showAllOrders').middleware('auth')  // show all orders
+  // show all orders
+  Route.get('orders', 'OrdersController.showAllOrders').middleware('auth')  
+    .as('show.orders')
   Route.patch('orders/:user_id/:order_id', 'OrdersController.update').middleware(['auth', 'permissions'])   // update order
+  // views
+  // Route.get('orders', 'OrdersController.ordersView').as('show.orders')
 
   // user account (settings)
   Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details

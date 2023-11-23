@@ -21,18 +21,16 @@ export default class AuthController {
         
         // once validated, persist validated data to db
         const user = await User.create(validatedData)
-        console.log(validatedData)
-        // log in user instead of having them login manually
-        // get api token
         const token = await auth.login(user)
         return token
-        // return response.redirect('/')
+        // return response.redirect('/api/books')
     }
 
     public showLogin ({ view }:HttpContextContract) {
         return view.render('auth/login')
     }
     public async login({ request, auth, response, view }: HttpContextContract) {
+        console.log('login backend')
         // get user request, extract email and password only
         const { email, password } = request.all()
 
@@ -42,9 +40,11 @@ export default class AuthController {
             const token = await auth.attempt(email, password)
             return token
             // response.send({ token })
-            // return response.redirect().toPath('/')
-            
-            // return view.render('success', { email })
+
+            // return response.redirect().toPath('/api/books')
+            // return response.redirect().toRoute('BooksController.showAllBooks', { token })
+
+            // return view.render('books', { email, token })
         } catch (error) {
             // if record does not match in db
             return "We couldn't verify your credentials."

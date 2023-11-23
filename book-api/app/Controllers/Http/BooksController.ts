@@ -8,7 +8,7 @@ import Order from 'App/Models/Order'
 export default class BooksController {
 
     // admin and teacher can access all books
-    public async showAllBooks({ request, auth }: HttpContextContract) {
+    public async showAllBooks({ request, auth, view }: HttpContextContract) {
         console.log('showallbooks')
         const location = request.input('location')
         const access_type = request.input('access_type')
@@ -42,6 +42,7 @@ export default class BooksController {
                 .clone()
         }
         return query
+        // return view.render('books', { auth, query })
     }
 
     public async store({ request, auth }: HttpContextContract) {

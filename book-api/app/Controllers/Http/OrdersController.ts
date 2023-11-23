@@ -6,6 +6,11 @@ import OrderValidator from 'App/Validators/OrderValidator'
 import UpdateOrderValidator from 'App/Validators/UpdateOrderValidator'
 
 export default class OrdersController {
+
+    // public ordersView ({ view }:HttpContextContract) {
+    //     return view.render('orders')
+    // }
+
     public async store({ request, params, auth }: HttpContextContract) {
         const { address, contact_number } = await request.validate(OrderValidator)
 
@@ -54,13 +59,14 @@ export default class OrdersController {
         }
     }
 
-    public async showAllOrders({ auth }: HttpContextContract) {
+    public async showAllOrders({ auth, view }: HttpContextContract) {
         // only admin can view
         if (auth.user?.userType === 'Admin') {
             const orders = await Order.query()
                 .preload('user')
                 .preload('book')
             return orders
+            // return view.render('orders', { orders })
         } else {
             throw new UnauthorizedException('Cannot view other users\' orders.')
         }
