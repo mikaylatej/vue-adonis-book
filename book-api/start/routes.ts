@@ -22,19 +22,16 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
   Route.post('auth/register', 'AuthController.register').as('auth.register')
-  // Route.get('auth/register', 'AuthController.showRegister').as('show.register')
   Route.post('auth/login', 'AuthController.login').as('auth.login')
-  // Route.get('auth/login', 'AuthController.showLogin').as('show.login')
 
   // CRUD books
   Route.post('books', 'BooksController.store').middleware(['auth', 'permissions']) // create book record
-  Route.get('books/:id', 'BooksController.showBook').middleware('auth')  // show book
+  Route.get('books/:id', 'BooksController.showBook')
+  .middleware('auth')  // show book
   Route.get('books', 'BooksController.showAllBooks')
   .middleware(['auth', 'permissions']) // show all books
   Route.patch('books', 'BooksController.update').middleware(['auth', 'permissions'])  // update book record
   Route.delete('books', 'BooksController.destroy').middleware(['auth', 'permissions'])  // delete book record
-  // views
-  // Route.get('books', 'BooksController.booksView').as('show.books')
 
   // order
   Route.post('books/:id/order', 'OrdersController.store').middleware('auth')  // create order

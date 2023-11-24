@@ -15,14 +15,19 @@ export default class BooksController {
         let query = Book.query().clone()
 
         const user = auth.user?.toJSON()
+        console.log(request.all().access)
         if (request.all().access === 'no' && user?.user_type === 'Student') {
             console.log('user loc: ' + user?.location)
-            query = query.where('access_type', 'Student')
-                .orWhere('access_type', 'All')
-                .andWhere('location', user?.location)
-                .clone()
+            query = query.whereIn('access_type', ['Student', 'All'])
+                      .andWhere('location', 'Asia')
+                      .clone()
+                    // .orWhere('access_type', 'All').clone()
+
+            // query =
+            //     // .andWhere('location', 'Asia')
+            //     // .clone()
             
-            return query
+            // return query
         }
         // return generateFilterQuery(query, location, access_type)
         if (location != null && access_type != null) {

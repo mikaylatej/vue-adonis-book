@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container">
-        <AuthCard />
+        <AuthLoginCard />
     </div>
     </div>
 </template>

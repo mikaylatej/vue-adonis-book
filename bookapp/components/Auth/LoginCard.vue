@@ -3,11 +3,15 @@
     <div class="card">
       <h3>Login</h3>
       <div class="input-container">
-        <input v-model="email" placeholder="Email" type="email" />
-        <input v-model="password" placeholder="Password" type="password" />
+        <label for="email">Email</label>
+        <input id="email" v-model="email" placeholder="Email" type="email" />
+        <label for="password">Password</label>
+        <input id="password" v-model="password" placeholder="Password" type="password" />
       </div>
-      <button class="login-button" @click="handleLogin">Login</button>
-      <p>Register</p>
+      <div class="nav-buttons">
+        <button class="login-button" @click="handleLogin">Login</button>
+        <p class="form-type" @click="register">Register</p>
+      </div>
     </div>
   </div>
 </template>
@@ -38,13 +42,17 @@ export default {
         console.log('data login: ' + data.token)
         this.token = data.token
         localStorage.setItem("token", data.token)
-
-        navigateTo({ path: '/api/books'})
+        this.email = ''
+        this.password = ''
+        navigateTo({ path: '/api/books' })
       } catch (e) {
         console.log(e)
       }
     },
-
+    register() {
+      navigateTo({ path: '/register' })
+      return
+    }
   },
 };
 </script>
@@ -56,6 +64,11 @@ export default {
   width: 25rem;
   border: 0.1rem solid rgb(0, 0, 0, 0.1);
   border-radius: 0.2rem;
+}
+
+label {
+  width: 100%;
+  display: block;
 }
 
 .card h3 {
@@ -75,15 +88,20 @@ export default {
   border-radius: 0.2rem;
 }
 
+.nav-buttons {
+  text-align: center;
+}
 .login-button {
   border: 0.1rem solid rgb(0, 0, 0, 0.1);
   border-radius: 0.2rem;
   padding: 0.3rem;
+  margin-top: 1rem;
 }
 
-p {
+.form-type {
   color: rgb(0, 119, 255);
   font-size: 0.75rem;
   cursor: pointer;
+  margin-top: 0.75rem;
 }
 </style>
