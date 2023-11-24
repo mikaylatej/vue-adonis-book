@@ -37,42 +37,29 @@
 import NavBar from '../components/layout/NavBar.vue';
 
 import axios from 'axios';
-// import axios from '~plugins/axios'
-
-// export default {
-//   async data ({error, req}) {
-//     let options = {}
-//     if (req && req.headers) {
-//       options.headers = req.headers
-//     }
-//     const { data } = await axios.get('http://127.0.0.1:3333/api/books', options)
-//     return {
-//       books: data
-//     }
-//   }
-// }
 
 export default {
+  // middleware: ['authenticated'],
   components: {
     NavBar
   },
   data: () => ({
     books: {}
   }),
+  async beforeMount() {
+    const token = localStorage.getItem('token')
+    if (token === 'undefined') {
+      navigateTo({ path: '/' })
+    }
+  },
   async mounted() {
-    // const { $api } = useNuxtApp()
-    // const { user: user } = await useFetch($api('/auth'), { credentials: 'include' })
+    console.log('mounted')
     await this.getBooks()
   },
   methods: {
     async getBooks() {
       try {
         console.log('user token: ' + localStorage.getItem('token'))
-        // const { data } = await axios.get(
-        //   "http://127.0.0.1:3333/api/books", {}, {
-        //   token: localStorage.getItem('token')
-        // })
-        // this.books = data
 
         const url = "http://127.0.0.1:3333/api/books"
         const token = localStorage.getItem('token')

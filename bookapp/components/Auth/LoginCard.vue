@@ -19,15 +19,18 @@
 <script>
 import axios from 'axios'
 
+import { useRoute } from 'vue-router';
+
 export default {
   data: () => ({
     token: {},
     email: '',
     password: ''
   }),
-  //   async mounted() {
-  //     await this.getBooks()
-  //   },
+  async mounted() {
+    const route = useRoute()
+    console.log('route name: ' + route.name)
+  },
   methods: {
     async handleLogin() {
       const user = {
@@ -39,6 +42,7 @@ export default {
           "http://127.0.0.1:3333/api/auth/login",
           user
         )
+
         console.log('data login: ' + data.token)
         this.token = data.token
         localStorage.setItem("token", data.token)
@@ -91,6 +95,7 @@ label {
 .nav-buttons {
   text-align: center;
 }
+
 .login-button {
   border: 0.1rem solid rgb(0, 0, 0, 0.1);
   border-radius: 0.2rem;

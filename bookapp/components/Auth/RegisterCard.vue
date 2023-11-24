@@ -49,9 +49,10 @@ export default {
     userType: 'Student',
     location: 'Asia'
   }),
-  //   async mounted() {
-  //     await this.getBooks()
-  //   },
+  async mounted() {
+    const route = useRoute()
+    console.log('route name: ' + route.name)
+  },
   methods: {
     async handleRegister() {
       const user = {

@@ -65,7 +65,8 @@ export default {
       try {
         console.log('user token: ' + localStorage.getItem('token'))
         const route = useRoute()
-        console.log('route: ' + route.params.id)
+        console.log('route name: ' + route.name)
+        console.log('route params id: ' + route.params.id)
         const url = "http://127.0.0.1:3333/api/books/" + route.params.id
         const token = localStorage.getItem('token')
         const { data } = await axios.get(url, {
