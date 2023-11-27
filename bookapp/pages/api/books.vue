@@ -38,6 +38,12 @@ import NavBar from '../components/layout/NavBar.vue';
 
 import axios from 'axios';
 
+definePageMeta({
+  middleware: [
+    'authenticated',
+  ],
+});
+
 export default {
   // middleware: ['authenticated'],
   components: {
@@ -46,12 +52,12 @@ export default {
   data: () => ({
     books: {}
   }),
-  async beforeMount() {
-    const token = localStorage.getItem('token')
-    if (token === 'undefined') {
-      navigateTo({ path: '/' })
-    }
-  },
+  // async beforeMount() {
+  //   const token = localStorage.getItem('token')
+  //   if (token === 'undefined') {
+  //     navigateTo({ path: '/' })
+  //   }
+  // },
   async mounted() {
     console.log('mounted')
     await this.getBooks()
