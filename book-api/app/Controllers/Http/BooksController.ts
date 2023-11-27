@@ -86,6 +86,7 @@ export default class BooksController {
 
     public async update({ request, auth }: HttpContextContract) {
         // fetch book to update
+        console.log('update book')
         const validatedData = await request.validate(UpdateBookValidator)
         const book_id = request.input('book_id')
         const book = await Book.findOrFail(book_id)

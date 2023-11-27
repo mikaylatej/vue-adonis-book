@@ -40,8 +40,7 @@ Route.group(() => {
   Route.get('orders', 'OrdersController.showAllOrders').middleware('auth')  
     .as('show.orders')
   Route.patch('orders/:user_id/:order_id', 'OrdersController.update').middleware(['auth', 'permissions'])   // update order
-  // views
-  // Route.get('orders', 'OrdersController.ordersView').as('show.orders')
+
 
   // user account (settings)
   Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details
