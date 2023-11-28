@@ -15,19 +15,12 @@ export default class BooksController {
         let query = Book.query().clone()
 
         const user = auth.user?.toJSON()
-        console.log(request.all().access)
+        console.log('request.all().access: ' + request.all().access)
         if (request.all().access === 'no' && user?.user_type === 'Student') {
             console.log('user loc: ' + user?.location)
             query = query.whereIn('access_type', ['Student', 'All'])
-                      .andWhere('location', 'Asia')
+                      .andWhere('location', user?.location)
                       .clone()
-                    // .orWhere('access_type', 'All').clone()
-
-            // query =
-            //     // .andWhere('location', 'Asia')
-            //     // .clone()
-            
-            // return query
         }
         // return generateFilterQuery(query, location, access_type)
         if (location != null && access_type != null) {
@@ -89,6 +82,7 @@ export default class BooksController {
     public async update({ request, auth }: HttpContextContract) {
         // fetch book to update
         console.log('update book')
+        console.log(request.all().access)
         const validatedData = await request.validate(UpdateBookValidator)
         const book_id = request.input('book_id')
         const book = await Book.findOrFail(book_id)

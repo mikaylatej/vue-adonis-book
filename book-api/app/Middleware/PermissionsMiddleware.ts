@@ -45,15 +45,17 @@ export default class PermissionsMiddleware {
     const action = permissionsObject[permissionKey]
     const hasPermission = await permissionValidator(user, action)
 
-    if (action === 'GET_ALL_BOOKS' && !hasPermission) {
+    // console.log('user.userType: ', user?.user_type)
+    if (action === 'GET_ALL_BOOKS' && !hasPermission && user?.user_type !== 'Admin') {
       // response.unauthorized({ error: 'No access rights' })
       console.log('has no access to all books')
       request.all().access = 'no'
       // await next()
-    } else if (!hasPermission && user?.userType !== 'Admin') {
+    } else if (!hasPermission && user?.user_type !== 'Admin') {
       response.unauthorized({ error: 'No access rights' })
       console.log('has no access rights')
       request.all().access = 'no'
+      response.unauthorized({ error: 'No access rights' })
       return
     }
     await next()

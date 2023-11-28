@@ -40,10 +40,10 @@
           <td v-else class="m-8 text-lg">
             <!-- <input id="accessType" v-model="book.access_type" type="text"> -->
             <select id="accessType" name="accessType" v-model="book.access_type">
-                <option value="Student">Student</option>
-                <option value="Teacher">Teacher</option>
-                <option value="All">All</option>
-              </select>
+              <option value="Student">Student</option>
+              <option value="Teacher">Teacher</option>
+              <option value="All">All</option>
+            </select>
           </td>
         </tr>
         <tr class="border-t-[3px]">
@@ -53,24 +53,27 @@
           <td v-if="!updateMode" class="m-8 text-lg">{{ book.location }}</td>
           <td v-else class="m-8 text-lg">
             <!-- <input id="location" v-model="location" :placeholder="book.location" type="text"> -->
-              <select id="location" name="location" v-model="book.location">
-                <option value="Asia">Asia</option>
-                <option value="Europe">Europe</option>
-                <option value="Australia">Australia</option>
-                <option value="Africa">Africa</option>
-                <option value="North America">North America</option>
-                <option value="South America">South America</option>
-              </select>
+            <select id="location" name="location" v-model="book.location">
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europe</option>
+              <option value="Australia">Australia</option>
+              <option value="Africa">Africa</option>
+              <option value="North America">North America</option>
+              <option value="South America">South America</option>
+            </select>
           </td>
         </tr>
       </table>
     </div>
     <div class="flex justify-center">
       <div class="w-5/6 my-5">
+        <div v-if="!hideUpdate">
         <button v-show="!updateMode" class="rounded-full bg-amber-300 hover:bg-amber-400 px-3 py-1 float-right ml-2"
           @click="updateBook">Update</button>
-        <button v-show="updateMode" class="rounded-full bg-green-300 hover:bg-green-400 px-3 py-1 float-right ml-2" @click="saveUpdate">Save
+        <button v-show="updateMode" class="rounded-full bg-green-300 hover:bg-green-400 px-3 py-1 float-right ml-2"
+          @click="saveUpdate">Save
           Changes</button>
+        </div>
         <button class="rounded-full bg-red-300 hover:bg-red-400 px-3 py-1 float-right" @click="deleteBook">Delete</button>
       </div>
     </div>
@@ -97,6 +100,7 @@ export default {
   data: () => ({
     book: {},
     updateMode: false,
+    hideUpdate: true,
     // title: '',
     // author: '',
     // price: '',
@@ -105,8 +109,25 @@ export default {
   }),
   async mounted() {
     await this.getBook()
+    await this.validateUser()
   },
   methods: {
+    async validateUser() {
+      try {
+        const url = "http://127.0.0.1:3333/api/books?book_id=" + this.book.id
+        const token = localStorage.getItem('token')
+        const { data } = await axios.patch(
+          url,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+          this.hideUpdate = false
+          console.log('hideUpdate: ' + this.hideUpdate)
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async getBook() {
       try {
         console.log('user token: ' + localStorage.getItem('token'))
@@ -138,10 +159,11 @@ export default {
         const url = "http://127.0.0.1:3333/api/books?book_id=" + this.book.id
         const token = localStorage.getItem('token')
         const { data } = await axios.patch(
-          url, 
-          this.book, 
-          { headers: { Authorization: `Bearer ${token}` }
-        })
+          url,
+          this.book,
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          })
         // navigateTo({ path: '/api/book/' + this.book.id })
         // window.location.reload(true)
         // this.$forceUpdate();
