@@ -50,6 +50,8 @@ Route.group(() => {
   Route.delete('account/:id', 'UsersController.destroy').middleware('auth')  // delete account 
 
   // user permissions
+  Route.get('permissions/users', 'UserPermissionsController.getUsers').middleware(['auth', 'admin'])
+  Route.get('permissions', 'UserPermissionsController.getPermissions').middleware(['auth', 'admin'])
   Route.post('permissions', 'UserPermissionsController.store').middleware(['auth', 'admin']) // create new record in user permissions
   Route.delete('permissions', 'UserPermissionsController.destroy').middleware(['auth', 'admin']) // create new record in user permissions
 

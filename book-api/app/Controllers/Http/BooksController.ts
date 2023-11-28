@@ -51,9 +51,11 @@ export default class BooksController {
     }
 
     public async store({ request, auth }: HttpContextContract) {
+        console.log(request)
         const validatedData = await request.validate(CreateBookValidator)
         // user type must be Admin to create book
-        if (auth.user?.userType !== 'Admin') {
+
+        if (auth.user?.userType !== 'Admin' && request.all().access === 'no') {
             throw new UnauthorizedException('This user is not authorized to create a book record.')
         } else {
             const book = await auth.user?.related('books').create(validatedData)
@@ -91,7 +93,7 @@ export default class BooksController {
         const book_id = request.input('book_id')
         const book = await Book.findOrFail(book_id)
 
-        if (auth.user?.userType !== 'Admin') {
+        if (auth.user?.userType !== 'Admin' && request.all().access === 'no') {
             throw new UnauthorizedException('This user is not authorized to update a book record.')
         }
         // validateAdminAccessOnly(auth.user)

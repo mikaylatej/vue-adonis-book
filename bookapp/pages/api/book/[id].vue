@@ -15,24 +15,53 @@
           <td class="m-8 text-lg p-5 font-semibold">Title</td>
           <td v-if="!updateMode" class="m-8 text-lg">{{ book.title }}</td>
           <td v-else class="m-8 text-lg">
-            <input id="title" v-model="title" :placeholder="book.title" type="text">
+            <input id="title" v-model="book.title" type="text">
           </td>
         </tr>
         <tr class="border-t-[3px]">
           <td class="m-8 text-lg p-5 font-semibold">Author</td>
-          <td class="m-8 text-lg">{{ book.author }}</td>
+          <td v-if="!updateMode" class="m-8 text-lg">{{ book.author }}</td>
+          <td v-else class="m-8 text-lg">
+            <input id="author" v-model="book.author" type="text">
+          </td>
         </tr>
         <tr class="border-t-[3px]">
           <td class="m-8 text-lg p-5 font-semibold">Price</td>
-          <td class="m-8 text-lg">{{ book.price }}</td>
+          <td v-if="!updateMode" class="m-8 text-lg">{{ book.price }}</td>
+          <td v-else class="m-8 text-lg">
+            <input id="price" v-model="book.price" type="text">
+          </td>
         </tr>
         <tr class="border-t-[3px]">
           <td class="m-8 text-lg p-5 font-semibold">User Type</td>
-          <td class="m-8 text-lg">{{ book.access_type }}</td>
+          <!-- <td class="m-8 text-lg">{{ book.access_type }}</td> -->
+
+          <td v-if="!updateMode" class="m-8 text-lg">{{ book.access_type }}</td>
+          <td v-else class="m-8 text-lg">
+            <!-- <input id="accessType" v-model="book.access_type" type="text"> -->
+            <select id="accessType" name="accessType" v-model="book.access_type">
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
+                <option value="All">All</option>
+              </select>
+          </td>
         </tr>
         <tr class="border-t-[3px]">
           <td class="m-8 text-lg p-5 font-semibold">Location</td>
-          <td class="m-8 text-lg">{{ book.location }}</td>
+          <!-- <td class="m-8 text-lg">{{ book.location }}</td> -->
+
+          <td v-if="!updateMode" class="m-8 text-lg">{{ book.location }}</td>
+          <td v-else class="m-8 text-lg">
+            <!-- <input id="location" v-model="location" :placeholder="book.location" type="text"> -->
+              <select id="location" name="location" v-model="book.location">
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europe</option>
+                <option value="Australia">Australia</option>
+                <option value="Africa">Africa</option>
+                <option value="North America">North America</option>
+                <option value="South America">South America</option>
+              </select>
+          </td>
         </tr>
       </table>
     </div>
@@ -68,7 +97,11 @@ export default {
   data: () => ({
     book: {},
     updateMode: false,
-    title: ''
+    // title: '',
+    // author: '',
+    // price: '',
+    // location: '',
+    // accessType: ''
   }),
   async mounted() {
     await this.getBook()
@@ -104,19 +137,14 @@ export default {
         console.log("book id: " + this.book.id)
         const url = "http://127.0.0.1:3333/api/books?book_id=" + this.book.id
         const token = localStorage.getItem('token')
-        console.log('token: ' + token)
-        const { data } = await axios.patch(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          book: {
-            title: this.title,
-            // access_type: this.access_type,
-            // price: this.price,
-            // author: this.author,
-            // location: this.location
-          }
+        const { data } = await axios.patch(
+          url, 
+          this.book, 
+          { headers: { Authorization: `Bearer ${token}` }
         })
+        // navigateTo({ path: '/api/book/' + this.book.id })
+        // window.location.reload(true)
+        // this.$forceUpdate();
       } catch (e) {
         console.log(e)
       }

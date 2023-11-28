@@ -124,7 +124,7 @@ export default {
         const url = "http://127.0.0.1:3333/api/account/" + this.user.id
         const token = localStorage.getItem('token')
         console.log('token: ' + token)
-        const { data } = await axios.delete(url, {
+        await axios.delete(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           }

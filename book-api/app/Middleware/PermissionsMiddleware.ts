@@ -7,6 +7,14 @@ const permissionsObject = {
   'PATCH/api/books': 'EDIT_PRODUCT',
   'PATCH/api/orders': 'EDIT_ORDER',
   'GET/api/books': 'GET_ALL_BOOKS'
+
+  /*
+  'POST/api/books': 'Add Book',
+  'DELETE/api/books': 'Delete Book',
+  'PATCH/api/books': 'Edit Book',
+  'GET/api/books': 'Get All Books',
+  'PATCH/api/orders': 'Edit Order',
+  */
 }
 
 const permissionValidator = async (user, action) => {
@@ -45,10 +53,9 @@ export default class PermissionsMiddleware {
     } else if (!hasPermission && user?.userType !== 'Admin') {
       response.unauthorized({ error: 'No access rights' })
       console.log('has no access rights')
-      // request.all().access = 'no'
+      request.all().access = 'no'
       return
     }
-
     await next()
   }
 }

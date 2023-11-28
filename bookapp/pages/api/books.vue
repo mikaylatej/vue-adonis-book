@@ -33,15 +33,15 @@
                 <option value="Admin">All</option>
               </select> -->
               <div>
-                <input id="user-student" name="user-type" type="radio" v-model="access_type" />
+                <input id="user-student" name="user-type" type="radio" value="Student" v-model="access_type" />
                 <label for="user-student" class="px-3">Student</label>
               </div>
               <div>
-                <input id="user-teacher" name="user-type" type="radio" v-model="access_type" />
+                <input id="user-teacher" name="user-type" type="radio" value="Teacher" v-model="access_type" />
                 <label for="user-teacher" class="px-3">Teacher</label>
               </div>
               <div>
-                <input id="user-all" name="user-type" type="radio" v-model="access_type" />
+                <input id="user-all" name="user-type" type="radio" value="All" v-model="access_type" />
                 <label for="user-all" class="px-3">All</label>
               </div>
 
@@ -180,16 +180,16 @@ export default {
         location: this.location,
       }
       try {
-        console.log('create book')
+        console.log(book)
 
         const url = 'http://127.0.0.1:3333/api/books'
         const token = localStorage.getItem('token')
-        const { data } = await axios.post(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          book
-        })
+        const { data } = await axios.post(url, book,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          })
 
         // clear data
         this.title = ''
@@ -198,8 +198,8 @@ export default {
         this.price = ''
         this.access_type = null
 
-        // navigateTo({ path: '/' })
         this.isOpen = false
+        navigateTo({ path: '/' })
       } catch (e) {
         console.log(e)
       }
