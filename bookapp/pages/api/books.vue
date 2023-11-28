@@ -151,7 +151,7 @@ export default {
       try {
         // store login user id to localstorage
         console.log('user token: ' + localStorage.getItem('token'))
-        const route = useRoute()
+        // const route = useRoute()
         const url = "http://127.0.0.1:3333/api/account/"
         const token = localStorage.getItem('token')
         const { data } = await axios.get(url, {
