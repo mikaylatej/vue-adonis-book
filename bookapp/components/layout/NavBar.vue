@@ -72,10 +72,13 @@ export default {
     permissionTab: false,
     booksActive: false
   }),
+  async beforeMount() {
+    await this.getUser()
+    this.showPermissions()
+  },
   async mounted() {
     this.activeTab()
     await this.setUserId()
-    this.showPermissions()
   },
   methods: {
     activeTab() {
@@ -116,25 +119,28 @@ export default {
       const userId = localStorage.getItem('userId')
       this.profilePage = '/api/account/' + userId
     },
+    async getUser() {
+      try {
+        // store login user id and type to localstorage
+        console.log('user token: ' + localStorage.getItem('token'))
+        const url = "http://127.0.0.1:3333/api/account/"
+        const token = localStorage.getItem('token')
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        localStorage.setItem("userId", data.id)
+        localStorage.setItem("userType", data.user_type)
+
+      } catch (e) {
+        console.log(e)
+      }
+    },
     showPermissions() {
       try {
-        // store login user id to localstorage
-        console.log('user token: ' + localStorage.getItem('token'))
-        // const route = useRoute()
-        // const url = "http://127.0.0.1:3333/api/account/"
-        // const token = localStorage.getItem('token')
-        // const { data } = await axios.get(url, {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // })
-        // console.log("user type: ", data.user_type)
-        // localStorage.setItem("userId", data.id)
-
         const userType = localStorage.getItem('userType')
-
         // show permission option in dropdown if admin
-        console.log('userType === admin', userType === 'Admin')
         if (userType === 'Admin') {
           this.permissionTab = true
         }

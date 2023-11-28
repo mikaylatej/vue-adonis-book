@@ -138,7 +138,19 @@ export default {
         //   // author: this.author,
         //   // location: this.location
         // }
-        const { data } = await axios.patch(
+        const user = this.user
+        console.log(user)
+        // const { data } = await axios.patch(
+        //   url,
+        //   { user },
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     }
+        //   })
+
+
+          const { data } = await axios.patch(
           url,
           this.user,
           {

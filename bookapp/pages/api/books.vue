@@ -126,7 +126,6 @@ export default {
   async mounted() {
     console.log('mounted')
     await this.getBooks()
-    await this.getUser()
   },
   methods: {
     async getBooks() {
@@ -142,26 +141,6 @@ export default {
           },
         })
         this.books = data
-
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    async getUser() {
-      try {
-        // store login user id to localstorage
-        console.log('user token: ' + localStorage.getItem('token'))
-        // const route = useRoute()
-        const url = "http://127.0.0.1:3333/api/account/"
-        const token = localStorage.getItem('token')
-        const { data } = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        console.log("user id: ", data.id)
-        localStorage.setItem("userId", data.id)
-        localStorage.setItem("userType", data.user_type)
 
       } catch (e) {
         console.log(e)
