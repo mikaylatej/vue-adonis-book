@@ -15,20 +15,41 @@
           <td class="m-8 text-lg p-5 font-semibold">Name</td>
           <td v-if="!updateMode" class="m-8 text-lg">{{ user.name }}</td>
           <td v-else class="m-8 text-lg">
-            <input id="name" v-model="name" :placeholder="user.name" type="text">
+            <input id="name" v-model="user.name" :placeholder="user.name" type="text">
           </td>
         </tr>
         <tr class="border-t-[3px]">
           <td class="m-8 text-lg p-5 font-semibold">User Type</td>
-          <td class="m-8 text-lg">{{ user.user_type }}</td>
+          <td v-if="!updateMode" class="m-8 text-lg">{{ user.user_type }}</td>
+          <td v-else class="m-8 text-lg">
+            <select id="user-type" name="user-type" v-model="user.user_type">
+              <option value="Student">Student</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </td>
         </tr>
         <tr class="border-t-[3px]">
           <td class="m-8 text-lg p-5 font-semibold">Location</td>
-          <td class="m-8 text-lg">{{ user.location }}</td>
+          <td v-if="!updateMode" class="m-8 text-lg">{{ user.location }}</td>
+          <td v-else class="m-8 text-lg">
+            <select id="location" name="location" v-model="user.location">
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europe</option>
+              <option value="Australia">Australia</option>
+              <option value="Africa">Africa</option>
+              <option value="North America">North America</option>
+              <option value="South America">South America</option>
+            </select>
+          </td>
         </tr>
         <tr class="border-t-[3px]">
           <td class="m-8 text-lg p-5 font-semibold">Email</td>
-          <td class="m-8 text-lg">{{ user.email }}</td>
+          <td v-if="!updateMode" class="m-8 text-lg">{{ user.email }}</td>
+          <td v-else class="m-8 text-lg">
+            <input id="email" v-model="user.email" placeholder="Email" type="email" />
+          </td>
+
         </tr>
       </table>
     </div>
@@ -37,9 +58,14 @@
       <div class="w-5/6 my-5">
         <button v-show="!updateMode" class="rounded-full bg-amber-300 hover:bg-amber-400 px-3 py-1 float-right ml-2"
           @click="updateUser">Update</button>
-        <button v-show="updateMode" class="rounded-full bg-green-300 hover:bg-green-400 px-3 py-1 float-right ml-2" @click="saveUpdate">Save
+        <button v-show="updateMode" class="rounded-full bg-green-300 hover:bg-green-400 px-3 py-1 float-right ml-2"
+          @click="saveUpdate">Save
           Changes</button>
-        <button class="rounded-full bg-red-300 hover:bg-red-400 px-3 py-1 float-right" @click="deleteUser">Delete Account</button>
+        <button v-show="updateMode" class="rounded-full bg-slate-300 hover:bg-slate-400 px-3 py-1 float-right ml-2"
+          @click="cancelUpdate">Cancel
+          Changes</button>
+        <button class="rounded-full bg-red-300 hover:bg-red-400 px-3 py-1 float-right" @click="deleteUser">Delete
+          Account</button>
       </div>
     </div>
   </div>
@@ -93,6 +119,9 @@ export default {
     updateUser() {
       this.updateMode = true
     },
+    cancelUpdate() {
+      window.location.reload(true)
+    },
     async saveUpdate() {
       try {
         this.updateMode = false
@@ -102,18 +131,21 @@ export default {
         const url = "http://127.0.0.1:3333/api/account/" + this.user.id
         const token = localStorage.getItem('token')
         console.log('token: ' + token)
-        const { data } = await axios.patch(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          user: {
-            name: this.name,
-            // access_type: this.access_type,
-            // price: this.price,
-            // author: this.author,
-            // location: this.location
-          }
-        })
+        // const user = {
+        //   name: this.name,
+        //   // access_type: this.access_type,
+        //   // price: this.price,
+        //   // author: this.author,
+        //   // location: this.location
+        // }
+        const { data } = await axios.patch(
+          url,
+          this.user,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          })
       } catch (e) {
         console.log(e)
       }

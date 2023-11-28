@@ -68,11 +68,14 @@
     <div class="flex justify-center">
       <div class="w-5/6 my-5">
         <div v-if="!hideUpdate">
-        <button v-show="!updateMode" class="rounded-full bg-amber-300 hover:bg-amber-400 px-3 py-1 float-right ml-2"
-          @click="updateBook">Update</button>
-        <button v-show="updateMode" class="rounded-full bg-green-300 hover:bg-green-400 px-3 py-1 float-right ml-2"
-          @click="saveUpdate">Save
-          Changes</button>
+          <button v-show="!updateMode" class="rounded-full bg-amber-300 hover:bg-amber-400 px-3 py-1 float-right ml-2"
+            @click="updateBook">Update</button>
+          <button v-show="updateMode" class="rounded-full bg-green-300 hover:bg-green-400 px-3 py-1 float-right ml-2"
+            @click="saveUpdate">Save
+            Changes</button>
+          <button v-show="updateMode" class="rounded-full bg-slate-300 hover:bg-slate-400 px-3 py-1 float-right ml-2"
+            @click="cancelUpdate">Cancel
+            Changes</button>
         </div>
         <button class="rounded-full bg-red-300 hover:bg-red-400 px-3 py-1 float-right" @click="deleteBook">Delete</button>
       </div>
@@ -122,8 +125,8 @@ export default {
           {
             headers: { Authorization: `Bearer ${token}` }
           })
-          this.hideUpdate = false
-          console.log('hideUpdate: ' + this.hideUpdate)
+        this.hideUpdate = false
+        console.log('hideUpdate: ' + this.hideUpdate)
       } catch (e) {
         console.log(e)
       }
@@ -149,6 +152,9 @@ export default {
     },
     updateBook() {
       this.updateMode = true
+    },
+    cancelUpdate() {
+      window.location.reload(true)
     },
     async saveUpdate() {
       try {
