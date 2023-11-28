@@ -23,6 +23,7 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.group(() => {
   Route.post('auth/register', 'AuthController.register').as('auth.register')
   Route.post('auth/login', 'AuthController.login').as('auth.login')
+  Route.post('auth/logout', 'AuthController.logout')
 
   // CRUD books
   Route.post('books', 'BooksController.store').middleware(['auth', 'permissions']) // create book record

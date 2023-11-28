@@ -53,8 +53,13 @@
 <script>
 import NavBar from '../components/layout/NavBar.vue';
 import axios from 'axios';
-
 import { useRoute } from 'vue-router';
+
+definePageMeta({
+  middleware: [
+    'authenticated',
+  ],
+});
 
 export default {
   components: {
