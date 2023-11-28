@@ -44,6 +44,8 @@ Route.group(() => {
 
 
   // user account (settings)
+  Route.get('account', 'UsersController.showOwn').middleware('auth')
+  Route.get('account/:id', 'UsersController.showUser').middleware('auth')
   Route.patch('account/:id', 'UsersController.update').middleware('auth')  // update account details
   Route.delete('account/:id', 'UsersController.destroy').middleware('auth')  // delete account 
 

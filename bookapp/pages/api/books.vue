@@ -111,7 +111,6 @@ definePageMeta({
 });
 
 export default {
-  // middleware: ['authenticated'],
   components: {
     NavBar
   },
@@ -124,15 +123,10 @@ export default {
     access_type: null,
     location: 'Asia'
   }),
-  // async beforeMount() {
-  //   const token = localStorage.getItem('token')
-  //   if (token === 'undefined') {
-  //     navigateTo({ path: '/' })
-  //   }
-  // },
   async mounted() {
     console.log('mounted')
     await this.getBooks()
+    await this.getUser()
   },
   methods: {
     async getBooks() {
@@ -148,6 +142,25 @@ export default {
           },
         })
         this.books = data
+
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async getUser() {
+      try {
+        // store login user id to localstorage
+        console.log('user token: ' + localStorage.getItem('token'))
+        const route = useRoute()
+        const url = "http://127.0.0.1:3333/api/account/"
+        const token = localStorage.getItem('token')
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        console.log("user id: ", data.id)
+        localStorage.setItem("userId", data.id)
 
       } catch (e) {
         console.log(e)

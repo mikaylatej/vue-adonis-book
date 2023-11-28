@@ -86,7 +86,9 @@ export default {
         console.log('data login: ' + data.token)
         this.token = data.token
         localStorage.removeItem("token")
+        localStorage.removeItem("userId")
         console.log('token after remove: ' + localStorage.getItem('token'))
+        console.log('userId after remove: ' + localStorage.getItem('userId'))
         navigateTo({ path: '/' })
       } catch (e) {
         console.log(e)
