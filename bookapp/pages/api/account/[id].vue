@@ -131,31 +131,21 @@ export default {
         const url = "http://127.0.0.1:3333/api/account/" + this.user.id
         const token = localStorage.getItem('token')
         console.log('token: ' + token)
-        // const user = {
-        //   name: this.name,
-        //   // access_type: this.access_type,
-        //   // price: this.price,
-        //   // author: this.author,
-        //   // location: this.location
-        // }
-        const user = this.user
-        console.log(user)
-        // const { data } = await axios.patch(
-        //   url,
-        //   { user },
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     }
-        //   })
+        // const user = this.user
+        // console.log(user)
 
-
-          const { data } = await axios.patch(
+        const { data } = await axios.patch(
           url,
-          this.user,
+          { 
+            name: this.user.name,
+            location: this.user.location,
+            email: this.user.email,
+            user_type: this.user.user_type
+          },
+          // this.user,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`
             }
           })
       } catch (e) {
