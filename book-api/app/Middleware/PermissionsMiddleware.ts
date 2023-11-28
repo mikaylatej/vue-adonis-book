@@ -42,7 +42,7 @@ export default class PermissionsMiddleware {
       console.log('has no access to all books')
       request.all().access = 'no'
       // await next()
-    } else if (!hasPermission) {
+    } else if (!hasPermission && user?.userType !== 'Admin') {
       response.unauthorized({ error: 'No access rights' })
       console.log('has no access rights')
       // request.all().access = 'no'

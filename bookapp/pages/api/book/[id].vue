@@ -38,11 +38,11 @@
     </div>
     <div class="flex justify-center">
       <div class="w-5/6 my-5">
-        <button v-show="!updateMode" class="rounded-full bg-amber-300 px-3 py-1 float-right ml-2"
+        <button v-show="!updateMode" class="rounded-full bg-amber-300 hover:bg-amber-400 px-3 py-1 float-right ml-2"
           @click="updateBook">Update</button>
-        <button v-show="updateMode" class="rounded-full bg-green-300 px-3 py-1 float-right ml-2" @click="saveUpdate">Save
+        <button v-show="updateMode" class="rounded-full bg-green-300 hover:bg-green-400 px-3 py-1 float-right ml-2" @click="saveUpdate">Save
           Changes</button>
-        <button class="rounded-full bg-red-300 px-3 py-1 float-right" @click="deleteBook">Delete</button>
+        <button class="rounded-full bg-red-300 hover:bg-red-400 px-3 py-1 float-right" @click="deleteBook">Delete</button>
       </div>
     </div>
   </div>
