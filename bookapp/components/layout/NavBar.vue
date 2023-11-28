@@ -51,8 +51,8 @@
           role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
           <a :href="profilePage" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
             id="user-menu-item-0">Your Profile</a>
-          <a href="#" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-            id="user-menu-item-1">Settings</a>
+          <a href="/api/account/permissions" v-if="permissionTab" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+            id="user-menu-item-1">User Permissions</a>
           <a href="#" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
             id="user-menu-item-2" @click="handleLogout">Log out</a>
         </div>
@@ -67,10 +67,12 @@ export default {
   data: () => ({
     // token: {},
     openNavDropdown: false,
-    profilePage: ''
+    profilePage: '',
+    permissionTab: false
   }),
   async mounted() {
     await this.setUserId() 
+    this.showPermissions()
   },
   methods: {
     openNav() {
@@ -91,8 +93,10 @@ export default {
         this.token = data.token
         localStorage.removeItem("token")
         localStorage.removeItem("userId")
+        localStorage.removeItem("userType")
         console.log('token after remove: ' + localStorage.getItem('token'))
         console.log('userId after remove: ' + localStorage.getItem('userId'))
+        console.log('userType after remove: ' + localStorage.getItem('userType'))
         navigateTo({ path: '/' })
       } catch (e) {
         console.log(e)
@@ -101,7 +105,34 @@ export default {
     setUserId() {
       const userId = localStorage.getItem('userId')
       this.profilePage = '/api/account/' + userId
-    }
+    },
+    showPermissions() {
+      try {
+        // store login user id to localstorage
+        console.log('user token: ' + localStorage.getItem('token'))
+        // const route = useRoute()
+        // const url = "http://127.0.0.1:3333/api/account/"
+        // const token = localStorage.getItem('token')
+        // const { data } = await axios.get(url, {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // })
+        // console.log("user type: ", data.user_type)
+        // localStorage.setItem("userId", data.id)
+
+        const userType = localStorage.getItem('userType')
+
+        // show permission option in dropdown if admin
+        console.log('userType === admin', userType === 'Admin')
+        if (userType === 'Admin') {
+          this.permissionTab = true
+        }
+
+      } catch (e) {
+        console.log(e)
+      }
+    },
   },
 }
 </script>

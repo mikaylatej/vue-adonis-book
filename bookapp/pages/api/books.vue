@@ -161,6 +161,7 @@ export default {
         })
         console.log("user id: ", data.id)
         localStorage.setItem("userId", data.id)
+        localStorage.setItem("userType", data.user_type)
 
       } catch (e) {
         console.log(e)

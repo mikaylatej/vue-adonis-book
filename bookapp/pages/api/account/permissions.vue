@@ -75,6 +75,7 @@ import axios from 'axios';
 definePageMeta({
   middleware: [
     'authenticated',
+    'admin'
   ],
 });
 
