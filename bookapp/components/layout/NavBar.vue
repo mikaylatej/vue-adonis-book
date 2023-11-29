@@ -13,10 +13,12 @@
       <div class="hidden sm:ml-6 sm:block">
         <div class="flex space-x-4">
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-          <a href="/api/books" :class="booksActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'" class="rounded-md px-3 py-2 text-sm font-medium"
-            aria-current="page">Books</a>
-          <a href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Orders</a>
+          <a href="/api/books"
+            :class="booksActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'"
+            class="rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Books</a>
+          <a href="/api/orders"
+            :class="ordersActive ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'"
+            class="rounded-md px-3 py-2 text-sm font-medium">Orders</a>
         </div>
       </div>
     </div>
@@ -70,7 +72,8 @@ export default {
     openNavDropdown: false,
     profilePage: '',
     permissionTab: false,
-    booksActive: false
+    booksActive: false,
+    ordersActive: false
   }),
   async beforeMount() {
     await this.getUser()
@@ -86,6 +89,9 @@ export default {
       console.log('route: ', route.path)
       if (route.path === '/api/books') {
         this.booksActive = true
+      }
+      if (route.path === '/api/orders') {
+        this.ordersActive = true
       }
     },
     openNav() {
