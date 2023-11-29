@@ -59,7 +59,7 @@ export default class BooksController {
         }
     }
 
-    public async showBook({ params, auth }: HttpContextContract) {
+    public async showBook({ params, auth, request }: HttpContextContract) {
         const user = auth.user?.toJSON()
         const book = await Book.findOrFail(params.id)
         const order = await Order.findBy('book_id', params.id)
@@ -68,6 +68,7 @@ export default class BooksController {
         if (user?.user_type === 'Student'
             && (book.accessType === 'Teacher' || user?.location !== book.location)
             && order == null
+            && request.all().access === 'no'
         ) {
             throw new UnauthorizedException('This user is not authorized to view this book record.')
         }
@@ -105,7 +106,7 @@ export default class BooksController {
         const book_id = request.input('book_id')
         const book = await Book.findOrFail(book_id)      // fetch thread to delete
 
-        if (auth.user?.userType !== 'Admin') {
+        if (auth.user?.userType !== 'Admin' && request.all().access === 'no') {
             throw new UnauthorizedException('This user is not authorized to delete a book record.')
         }
 

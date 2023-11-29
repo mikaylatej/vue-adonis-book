@@ -148,6 +148,7 @@ export default {
 
       } catch (e) {
         console.log(e)
+        return navigateTo('/api/unauthorized')
       }
     },
     updateBook() {

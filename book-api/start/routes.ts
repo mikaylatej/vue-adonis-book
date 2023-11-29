@@ -28,7 +28,7 @@ Route.group(() => {
   // CRUD books
   Route.post('books', 'BooksController.store').middleware(['auth', 'permissions']) // create book record
   Route.get('books/:id', 'BooksController.showBook')
-  .middleware('auth')  // show book
+  .middleware(['auth', 'permissions'])  // show book
   Route.get('books', 'BooksController.showAllBooks')
   .middleware(['auth', 'permissions']) // show all books
   Route.patch('books', 'BooksController.update').middleware(['auth', 'permissions'])  // update book record

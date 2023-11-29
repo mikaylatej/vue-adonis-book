@@ -21,12 +21,25 @@ import axios from 'axios'
 
 import { useRoute } from 'vue-router';
 
+// definePageMeta({
+//   middleware: [
+//     'noToken',
+//   ],
+// });
+
 export default {
   data: () => ({
     token: {},
     email: '',
     password: ''
   }),
+  async beforeMount() {
+    const token = localStorage.getItem('token')
+    console.log('beforeMount token: ', token)
+    if (token !=='undefined' || token !== null) {
+      return navigateTo('/api/books')
+    }
+  },
   async mounted() {
     const route = useRoute()
     console.log('route name: ' + route.name)
