@@ -164,6 +164,7 @@ export default {
         console.log("book id: " + this.book.id)
         const url = "http://127.0.0.1:3333/api/books?book_id=" + this.book.id
         const token = localStorage.getItem('token')
+        console.log('this.book: ', this.book)
         const { data } = await axios.patch(
           url,
           this.book,

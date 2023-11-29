@@ -28,7 +28,7 @@ export default class UpdateUserByAdminValidator {
     location: schema.string.optional({},[
       rules.exists({ table: 'continents', column: 'name' })
     ]),
-    userType: schema.string.optional({},[
+    user_type: schema.string.optional({},[
       rules.exists({ table: 'user_types', column: 'name' })
     ]),
     email: schema.string.optional({}, [

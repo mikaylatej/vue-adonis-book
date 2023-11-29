@@ -89,7 +89,8 @@ export default {
   data: () => ({
     user: {},
     updateMode: false,
-    name: ''
+    name: '',
+    email: ''
   }),
   async mounted() {
     await this.getUser()
@@ -109,7 +110,7 @@ export default {
           },
         })
         this.user = data
-
+        this.email = data.email
       } catch (e) {
         console.log(e)
         const userId = localStorage.getItem('userId')
@@ -131,22 +132,35 @@ export default {
         const url = "http://127.0.0.1:3333/api/account/" + this.user.id
         const token = localStorage.getItem('token')
         console.log('token: ' + token)
-        // const user = this.user
-        // console.log(user)
+        
+        console.log(this.user.name)
+        console.log(this.user.location)
+        console.log(this.user.email)
+        console.log(this.user.user_type)
 
-        const { data } = await axios.patch(
-          url,
-          { 
+        var user = {}
+        console.log('this.email: ', this.email)
+        if (this.email === this.user.email) {
+          user = { 
+            name: this.user.name,
+            location: this.user.location,
+            // email: this.user.email,
+            user_type: this.user.user_type
+          }
+        } else {
+          user = { 
             name: this.user.name,
             location: this.user.location,
             email: this.user.email,
             user_type: this.user.user_type
-          },
-          // this.user,
+          }
+        }
+        const { data } = await axios.patch(
+          url,
+          user,
+          // user,
           {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
           })
       } catch (e) {
         console.log(e)

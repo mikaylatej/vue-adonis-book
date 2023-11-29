@@ -24,8 +24,10 @@ export default class UsersController {
     }
 
     public async update({ request, params, auth }: HttpContextContract) {
+        console.log('update user be')
         const user = await User.findOrFail(params.id)   // fetch user to update
         if (auth.user?.userType === 'Admin') {
+            console.log('admin upd')
             const validatedData = await request.validate(UpdateUserByAdminValidator)
             user.merge(validatedData)
             await user.save()
