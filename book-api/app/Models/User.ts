@@ -4,6 +4,7 @@ import { column, beforeSave, BaseModel, hasMany, HasMany, belongsTo, BelongsTo }
 import Book from './Book'
 import UserType from './UserType'
 import Order from './Order'
+import UserPermission from './UserPermission'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -48,4 +49,7 @@ export default class User extends BaseModel {
 
   @hasMany(() => Order) 
   public order: HasMany<typeof Order>
+
+  @hasMany(() => UserPermission) 
+  public userPerm: HasMany<typeof UserPermission>
 }
