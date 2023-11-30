@@ -148,6 +148,10 @@
               <input id="GET_ALL_BOOKS" name="accessTypes" type="checkbox" value="GET_ALL_BOOKS" v-model="accessTypes" />
               <label for="GET_ALL_BOOKS" class="ml-3">View All Books</label>
             </div>
+            <div>
+              <input id="GET_ALL_ORDERS" name="accessTypes" type="checkbox" value="GET_ALL_ORDERS" v-model="accessTypes" />
+              <label for="GET_ALL_ORDERS" class="ml-3">View All Orders</label>
+            </div>
           </div>
 
 

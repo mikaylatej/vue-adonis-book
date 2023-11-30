@@ -38,7 +38,7 @@ Route.group(() => {
   Route.post('books/:id/order', 'OrdersController.store').middleware('auth')  // create order
   Route.get('orders/:user_id', 'OrdersController.showUserOrders').middleware('auth')  // show user orders
   // show all orders
-  Route.get('orders', 'OrdersController.showAllOrders').middleware('auth')  
+  Route.get('orders', 'OrdersController.showAllOrders').middleware(['auth', 'permissions'])
     .as('show.orders')
   Route.patch('orders/:user_id/:order_id', 'OrdersController.update').middleware(['auth', 'permissions'])   // update order
 
