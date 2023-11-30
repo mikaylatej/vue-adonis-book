@@ -40,7 +40,6 @@ export default class PermissionsMiddleware {
       request.all().access = 'no'
     } else if (!hasPermission && user?.user_type !== 'Admin') {
       response.unauthorized({ error: 'No access rights' })
-      request.all().access = 'no'
       return
     }
     await next()

@@ -8,24 +8,19 @@ import Order from 'App/Models/Order'
 export default class BooksController {
 
     // admin and teacher can access all books
-    public async showAllBooks({ request, auth, view }: HttpContextContract) {
-        console.log('showallbooks')
+    public async showAllBooks({ request, auth }: HttpContextContract) {
         const location = request.input('location')
         const access_type = request.input('access_type')
         let query = Book.query().clone()
 
         const user = auth.user?.toJSON()
-        console.log('request.all().access: ' + request.all().access)
         if (request.all().access === 'no' && user?.user_type === 'Student') {
             console.log('user loc: ' + user?.location)
             query = query.whereIn('access_type', ['Student', 'All'])
                       .andWhere('location', user?.location)
                       .clone()
         }
-        // return generateFilterQuery(query, location, access_type)
         if (location != null && access_type != null) {
-            // if there is location in param, filter by loc
-            // else return all books (from all locs)
             query = query
                 .where('location', location)
                 .andWhere('access_type', access_type)
@@ -40,7 +35,6 @@ export default class BooksController {
                 .clone()
         }
         return query
-        // return view.render('books', { auth, query })
     }
 
     public async store({ request, auth }: HttpContextContract) {
@@ -103,6 +97,7 @@ export default class BooksController {
     }
 
     public async destroy({ request, auth }: HttpContextContract) {
+        console.log('deletebook')
         const book_id = request.input('book_id')
         const book = await Book.findOrFail(book_id)      // fetch thread to delete
 

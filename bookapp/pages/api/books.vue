@@ -132,6 +132,8 @@ export default {
       try {
         console.log('user token: ' + localStorage.getItem('token'))
 
+        const route = useRoute()
+        console.log('route path: ', route.query)
         const url = "http://127.0.0.1:3333/api/books"
         const token = localStorage.getItem('token')
 
