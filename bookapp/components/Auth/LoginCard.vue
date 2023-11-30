@@ -7,6 +7,7 @@
         <input id="email" v-model="email" placeholder="Email" type="email" />
         <label for="password">Password</label>
         <input id="password" v-model="password" placeholder="Password" type="password" />
+        <p v-if="invalidUser" class="text-sm text-red-500">We couldn't verify your credentials.</p>
       </div>
       <div class="nav-buttons">
         <button class="login-button" @click="handleLogin">Login</button>
@@ -31,7 +32,8 @@ export default {
   data: () => ({
     token: {},
     email: '',
-    password: ''
+    password: '',
+    invalidUser: false
   }),
   async beforeMount() {
     const token = localStorage.getItem('token')
@@ -61,9 +63,11 @@ export default {
         localStorage.setItem("token", data.token)
         this.email = ''
         this.password = ''
+        this.invalidUser = false
         navigateTo({ path: '/api/books' })
       } catch (e) {
         console.log(e)
+        this.invalidUser = true
       }
     },
     register() {

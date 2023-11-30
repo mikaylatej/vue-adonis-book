@@ -38,6 +38,7 @@ export default class AuthController {
             // try login the user
             // if matches, user will be logged in and token will be generated
             const token = await auth.attempt(email, password)
+            console.log(token)
             return token
             // response.send({ token })
 
@@ -47,7 +48,8 @@ export default class AuthController {
             // return view.render('books', { email, token })
         } catch (error) {
             // if record does not match in db
-            return "We couldn't verify your credentials."
+            throw new UnauthorizedException('We couldn\'t verify your credentials.')
+            // return "We couldn't verify your credentials."
         }
     }
 

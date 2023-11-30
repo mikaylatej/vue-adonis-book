@@ -82,6 +82,7 @@ export default {
         navigateTo({ path: '/' })
       } catch (e) {
         console.log(e)
+        
       }
     },
     login() {
