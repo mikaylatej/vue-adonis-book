@@ -22,9 +22,9 @@ const getPathname = (urlString) => {
   const index = urlString.indexOf(':')
   if (index === -1) {
     return urlString
-  } 
+  }
   const url = urlString.split(':')[0]
-  const finalUrl = url.slice(0, url.length-1)
+  const finalUrl = url.slice(0, url.length - 1)
   console.log('GET PATHNAME: ' + finalUrl)
   return finalUrl
 }
@@ -37,7 +37,8 @@ export default class PermissionsMiddleware {
     const action = permissionsObject[permissionKey]
     const hasPermission = await permissionValidator(user, action)
 
-    if ((action === 'GET_ALL_BOOKS' || action === 'GET_ALL_ORDERS') && !hasPermission && user?.user_type !== 'Admin') {
+    if ((action === 'GET_ALL_BOOKS' || action === 'GET_ALL_ORDERS')
+      && !hasPermission && user?.user_type !== 'Admin') {
       request.all().access = 'no'
     } else if (!hasPermission && user?.user_type !== 'Admin') {
       response.unauthorized({ error: 'No access rights' })

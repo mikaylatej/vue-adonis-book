@@ -61,8 +61,6 @@ export default class OrdersController {
 
     public async showAllOrders({ auth, request }: HttpContextContract) {
         // only admin can view
-        console.log('SHOWALLORDERS')
-        console.log(request.all().access)
         if (auth.user?.userType === 'Admin' || request.all().access !== 'no') {
             const orders = await Order.query()
                 .preload('user')
