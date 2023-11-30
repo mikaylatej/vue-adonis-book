@@ -7,14 +7,6 @@ const permissionsObject = {
   'PATCH/api/books': 'EDIT_PRODUCT',
   'PATCH/api/orders': 'EDIT_ORDER',
   'GET/api/books': 'GET_ALL_BOOKS'
-
-  /*
-  'POST/api/books': 'Add Book',
-  'DELETE/api/books': 'Delete Book',
-  'PATCH/api/books': 'Edit Book',
-  'GET/api/books': 'Get All Books',
-  'PATCH/api/orders': 'Edit Order',
-  */
 }
 
 const permissionValidator = async (user, action) => {
@@ -39,23 +31,16 @@ const getPathname = (urlString) => {
 export default class PermissionsMiddleware {
   public async handle({ auth, response, request }: HttpContextContract, next: () => Promise<void>) {
     const user = auth.user?.toJSON()
-
     const pathName = getPathname(request.ctx?.route?.pattern) // remove params from pathname
     const permissionKey = request.method() + pathName
     const action = permissionsObject[permissionKey]
     const hasPermission = await permissionValidator(user, action)
 
-    // console.log('user.userType: ', user?.user_type)
     if (action === 'GET_ALL_BOOKS' && !hasPermission && user?.user_type !== 'Admin') {
-      // response.unauthorized({ error: 'No access rights' })
-      console.log('has no access to all books')
       request.all().access = 'no'
-      // await next()
     } else if (!hasPermission && user?.user_type !== 'Admin') {
       response.unauthorized({ error: 'No access rights' })
-      console.log('has no access rights')
       request.all().access = 'no'
-      response.unauthorized({ error: 'No access rights' })
       return
     }
     await next()

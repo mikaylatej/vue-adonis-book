@@ -89,13 +89,15 @@
       <table class="table-auto center w-5/6 bg-slate-300 rounded-lg">
         <thead>
           <tr>
-            <th class="py-2">User</th>
+            <th class="py-2">ID</th>
+            <th>User</th>
             <th>User Permission</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(user, index) in users" :key="index" class="border-t-[3px] hover:bg-slate-400"
             @click="updateMode(user.id, user.name)">
+            <td class="px-3">{{ user.id }}</td>
             <td class="px-3">{{ user.name }}</td>
             <td class="px-3">
               <ul>

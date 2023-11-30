@@ -162,6 +162,7 @@ export default {
           {
             headers: { Authorization: `Bearer ${token}` }
           })
+          window.location.reload(true)
       } catch (e) {
         console.log(e)
       }
